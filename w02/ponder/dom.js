@@ -1,0 +1,10 @@
+const title = document.querySelector('h1');
+
+console.log(title);
+
+title.textContent = 'Web Page Components';
+
+let topics = document.querySelector('#topics');
+// topics.style.color = 'red';
+
+document.getElementById('topics').style.color = 'purple';
