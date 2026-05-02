@@ -9,6 +9,13 @@
 	--bg: #ffffff;
 }
 
+html.dark-mode {
+	--text: #e4e4e4;
+	--muted: #a0c4f7;
+	--line: #444;
+	--bg: #1a1a1a;
+}
+
 html {
 	font-size: 16px;
 }
@@ -39,6 +46,35 @@ body {
 	margin-bottom: 28px;
 	padding-bottom: 6px;
 	border-bottom: 1px solid var(--line);
+}
+
+.header-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 16px;
+}
+
+.theme-selector {
+	padding: 8px 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.95rem;
+	color: var(--text);
+	background: var(--bg);
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.theme-selector:hover {
+	background: var(--line);
+}
+
+.theme-selector:focus {
+	outline: none;
+	border-color: var(--muted);
+	box-shadow: 0 0 0 2px rgba(47, 111, 184, 0.2);
 }
 
 .header h1 {
