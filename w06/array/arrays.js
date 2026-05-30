@@ -13,7 +13,7 @@ function showSteps(item){
 
 //.map
 
-let myList = document.querySelector('#my-list');
+let myList = document.querySelector('#myList');
 
 const stepsHtml = steps.map(listTemplate);
 
