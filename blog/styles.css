@@ -18,7 +18,7 @@ html {
 body {
   margin: 0;
   color: var(--text);
-  background: #fff;
+  background: #f0f0f0;
   font-family: Georgia, "Times New Roman", serif;
   line-height: 1.45;
 }
@@ -83,10 +83,20 @@ img {
   padding: 1.5rem 1rem 1.25rem;
 }
 
+.articles-list {
+  display: grid;
+  gap: 1.1rem;
+}
+
 .book-review {
   display: grid;
   gap: 1.25rem;
-  min-height: 26rem;
+  min-height: 24rem;
+  padding: 1rem 0 1.25rem;
+}
+
+.book-review + .book-review {
+  border-top: 1px solid #eeeeee;
 }
 
 .book-meta {
@@ -160,7 +170,7 @@ img {
     grid-template-columns: minmax(10rem, 0.34fr) minmax(0, 1fr);
     gap: 1.6rem;
     align-items: start;
-    min-height: 22rem;
+    min-height: 20rem;
     padding-top: 0.5rem;
     padding-bottom: 1rem;
     border-left: 1px solid transparent;
@@ -210,6 +220,7 @@ img {
 
   .book-main h2 {
     max-width: 22rem;
+    font-size: 1.8rem;
   }
 
   .book-cover img {
