@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Event Ticket</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <main class="page-bg">
+    <section class="card">
+      <h1 class="title">Event Ticket</h1>
+
+      <form id="ticketForm" class="form" novalidate>
+        <div class="row two-col">
+          <div class="field">
+            <label for="first">First Name</label>
+            <input id="first" name="first" type="text" placeholder="Sue" required>
+          </div>
+          <div class="field">
+            <label for="last">Last Name</label>
+            <input id="last" name="last" type="text" placeholder="Smith" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Sue@this.this" required>
+        </div>
+
+        <div class="row two-col">
+          <div class="field">
+            <label for="type">Type</label>
+            <select id="type" name="type">
+              <option>Student</option>
+              <option>Guest</option>
+              <option>VIP</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="date">Event Date</label>
+            <input id="date" name="date" type="date" value="2026-04-04">
+          </div>
+        </div>
+
+        <div class="field conditional-wrap student-id-wrap">
+          <label for="studentId">Student ID#</label>
+          <input id="studentId" name="studentId" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="123456789">
+        </div>
+
+        <div class="field conditional-wrap guest-code-wrap">
+          <label for="guestCode">Guest Code</label>
+          <input id="guestCode" name="guestCode" type="text" placeholder="GUEST-1234">
+        </div>
+
+        <button class="btn-submit" type="submit">Create Ticket</button>
+
+        <div id="formFeedback" class="feedback">
+          <div id="errors" class="errors" aria-live="polite"></div>
+          <div id="ticket" class="ticket" aria-live="polite"></div>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
