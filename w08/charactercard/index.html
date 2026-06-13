@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="A character card demo with health, level, and interactive attack and level up actions.">
+
+	<meta property="og:title" content="Swamp Beast Diplomat Character Card">
+	<meta property="og:description" content="An interactive character card that tracks level, health, and actions.">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="images/snortleblat.png">
+	<meta property="og:image:alt" content="Swamp Beast Diplomat character image">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Swamp Beast Diplomat Character Card">
+	<meta name="twitter:description" content="An interactive character card that tracks level, health, and actions.">
+	<meta name="twitter:image" content="images/snortleblat.png">
+
+	<link rel="icon" href="images/snortleblat.png">
+	<link rel="apple-touch-icon" href="images/snortleblat.png">
+	<link rel="stylesheet" href="style.css">
+	<title>Character Card</title>
+</head>
+<body>
+	<main class="card" aria-labelledby="character-name">
+		<img class="image" src="images/snortleblat.png" alt="Swamp Beast Diplomat">
+		<h1 class="name" id="character-name"></h1>
+
+		<section class="stats" aria-label="Character stats">
+			<p id="character-class"></p>
+			<p id="character-level"></p>
+			<p id="character-health"></p>
+			<p class="status" id="character-status" aria-live="polite"></p>
+		</section>
+
+		<section class="buttons" aria-label="Character actions">
+			<button type="button" id="attack-button">Attacked</button>
+			<button type="button" id="heal-button">Heal</button>
+			<button type="button" id="level-up-button">Level Up</button>
+		</section>
+	</main>
+
+	<script src="character.js"></script>
+</body>
+</html>
