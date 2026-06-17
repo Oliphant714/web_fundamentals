@@ -1,117 +1,256 @@
-document.addEventListener('DOMContentLoaded', ()=>{
-  const form = document.getElementById('ticketForm');
-  const type = document.getElementById('type');
-  const studentWrap = document.querySelector('.student-id-wrap');
-  const studentId = document.getElementById('studentId');
-  const guestWrap = document.querySelector('.guest-code-wrap');
-  const guestCode = document.getElementById('guestCode');
-  const dateInput = document.getElementById('date');
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('ticketForm');
+  var firstName = document.getElementById('first');
+  var lastName = document.getElementById('last');
+  var email = document.getElementById('email');
+  var type = document.getElementById('type');
+  var dateInput = document.getElementById('date');
+  var studentId = document.getElementById('studentId');
+  var guestCode = document.getElementById('guestCode');
+  var studentWrap = document.querySelector('.student-id-wrap');
+  var guestWrap = document.querySelector('.guest-code-wrap');
+  var errorsEl = document.getElementById('errors');
+  var ticketEl = document.getElementById('ticket');
+  var submitted = false;
 
-  // set minimum date to today to prevent past dates
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const todayISO = `${yyyy}-${mm}-${dd}`;
-  if(dateInput){
-    dateInput.min = todayISO;
-    if(!dateInput.value || dateInput.value < dateInput.min) dateInput.value = dateInput.min;
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = String(today.getMonth() + 1).padStart(2, '0');
+  var day = String(today.getDate()).padStart(2, '0');
+  var todayString = year + '-' + month + '-' + day;
+
+  dateInput.min = todayString;
+  if (!dateInput.value || dateInput.value < todayString) {
+    dateInput.value = todayString;
   }
 
-  function toggleConditionalFields(){
-    const v = type.value.toLowerCase();
-    if(v.includes('student')){
+  function checkEmail() {
+    var value = email.value.trim();
+    const pattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    if (value === '') {
+      email.setCustomValidity('');
+    } else if (pattern.test(value)) {
+      email.setCustomValidity('');
+    } else {
+      email.setCustomValidity('Please enter a valid email address.');
+    }
+  }
+
+  function showHideFields() {
+    if (type.value === 'Student') {
       studentWrap.classList.remove('hidden');
+      guestWrap.classList.add('hidden');
+      studentId.required = true;
+      guestCode.required = false;
     } else {
       studentWrap.classList.add('hidden');
-      studentWrap.classList.remove('error');
-    }
-    if(v.includes('guest')){
       guestWrap.classList.remove('hidden');
-    } else {
-      guestWrap.classList.add('hidden');
-      guestWrap.classList.remove('error');
+      studentId.required = false;
+      guestCode.required = true;
     }
   }
 
-  toggleConditionalFields();
-  type.addEventListener('change', toggleConditionalFields);
+  function checkStudentId() {
+    var value = studentId.value.trim();
 
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    // Validate required fields and show messages in the errors area
-    const errorsEl = document.getElementById('errors');
-    const ticketEl = document.getElementById('ticket');
+    if (type.value !== 'Student') {
+      studentId.setCustomValidity('');
+    } else if (value === '') {
+      studentId.setCustomValidity('Student ID is required for Students.');
+    } else if (/^\d{9}$/.test(value)) {
+      studentId.setCustomValidity('');
+    } else {
+      studentId.setCustomValidity('Student ID must be a 9 digit number for Students.');
+    }
+  }
+
+  function checkGuestCode() {
+    var value = guestCode.value.trim();
+
+    if (type.value !== 'Guest') {
+      guestCode.setCustomValidity('');
+    } else if (value === '') {
+      guestCode.setCustomValidity('Guest Code is required for Guests.');
+    } else if (value === 'EVENT131') {
+      guestCode.setCustomValidity('');
+    } else {
+      guestCode.setCustomValidity('Guest Code must be EVENT131 for Guests.');
+    }
+  }
+
+  function clearMessages() {
     errorsEl.innerHTML = '';
-    ticketEl.innerHTML = '';
     errorsEl.style.display = 'none';
+    ticketEl.innerHTML = '';
     ticketEl.style.display = 'none';
-    // clear previous error classes
-    document.querySelectorAll('.conditional-wrap').forEach(el=>el.classList.remove('error'));
+  }
 
-    const v = type.value.toLowerCase();
-    const errors = [];
-    const firstVal = document.getElementById('first').value.trim();
-    const lastVal = document.getElementById('last').value.trim();
-    const emailVal = document.getElementById('email').value.trim();
-    const dateVal = document.getElementById('date').value;
-
-    if(!firstVal) errors.push('First name is required.');
-    if(!lastVal) errors.push('Last name is required.');
-    if(!emailVal) errors.push('Email is required.');
-    else if(!/^\S+@\S+\.\S+$/.test(emailVal)) errors.push('Email must be a valid email address.');
-    if(!dateVal) errors.push('Event date is required.');
-    else if(dateInput && dateVal < dateInput.min) errors.push('Event date cannot be before today.');
-
-    if(v.includes('student') && !studentId.value.trim()){
-      errors.push('Student I# is required for Students.');
-      studentWrap.classList.add('error');
+  function markError(input) {
+    var field = input.closest('.field');
+    if (field) {
+      field.classList.add('error');
     }
-    if(v.includes('guest') && !guestCode.value.trim()){
-      errors.push('Guest Code is required for Guests.');
-      guestWrap.classList.add('error');
-    }
+  }
 
-    if(errors.length){
-      errorsEl.style.display = 'block';
-      const ul = document.createElement('ul');
-      errors.forEach(msg=>{ const li = document.createElement('li'); li.textContent = msg; ul.appendChild(li); });
-      errorsEl.appendChild(ul);
-      // focus first invalid field
-      if(v.includes('student') && studentWrap.classList.contains('error')){
-        studentId.focus();
-      } else if(v.includes('guest') && guestWrap.classList.contains('error')){
-        guestCode.focus();
-      } else if(!firstVal) document.getElementById('first').focus();
-      else if(!lastVal) document.getElementById('last').focus();
-      else if(!emailVal) document.getElementById('email').focus();
-      return;
+  function clearError(input) {
+    var field = input.closest('.field');
+    if (field) {
+      field.classList.remove('error');
+    }
+  }
+
+  function updateFieldStyles() {
+    var fields = [firstName, lastName, email, dateInput, studentId, guestCode];
+    for (var i = 0; i < fields.length; i++) {
+      clearError(fields[i]);
+      if (!fields[i].checkValidity()) {
+        markError(fields[i]);
+      }
+    }
+  }
+
+  function showErrors(list) {
+    var ul = document.createElement('ul');
+    for (var i = 0; i < list.length; i++) {
+      var li = document.createElement('li');
+      li.textContent = list[i];
+      ul.appendChild(li);
     }
 
-    // success — build ticket display and clear errors
-    const ticketCard = document.createElement('div');
+    errorsEl.appendChild(ul);
+    errorsEl.style.display = 'block';
+  }
+
+  function makeRow(label, value) {
+    var row = document.createElement('div');
+    row.className = 'ticket-row';
+
+    var labelDiv = document.createElement('div');
+    labelDiv.className = 'ticket-label';
+    labelDiv.textContent = label;
+
+    var valueDiv = document.createElement('div');
+    valueDiv.className = 'ticket-value';
+    valueDiv.textContent = value;
+
+    row.appendChild(labelDiv);
+    row.appendChild(valueDiv);
+    return row;
+  }
+
+  function makeTicket() {
+    var ticketCard = document.createElement('div');
     ticketCard.className = 'ticket-card';
-    const addRow = (label, val)=>{
-      const r = document.createElement('div'); r.className='ticket-row';
-      const l = document.createElement('div'); l.className='ticket-label'; l.textContent = label;
-      const vdiv = document.createElement('div'); vdiv.className='ticket-value'; vdiv.textContent = val;
-      r.appendChild(l); r.appendChild(vdiv); ticketCard.appendChild(r);
-    };
-    addRow('Name', firstVal + ' ' + lastVal);
-    addRow('Email', emailVal);
-    addRow('Type', type.value);
-    addRow('Event Date', dateVal);
-    if(v.includes('student')) addRow('Student I#', studentId.value.trim());
-    if(v.includes('guest')) addRow('Guest Code', guestCode.value.trim());
+
+    ticketCard.appendChild(makeRow('Name', firstName.value.trim() + ' ' + lastName.value.trim()));
+    ticketCard.appendChild(makeRow('Email', email.value.trim()));
+    ticketCard.appendChild(makeRow('Type', type.value));
+    ticketCard.appendChild(makeRow('Event Date', dateInput.value));
+
+    if (type.value === 'Student') {
+      ticketCard.appendChild(makeRow('Student ID#', studentId.value.trim()));
+    }
+
+    if (type.value === 'Guest') {
+      ticketCard.appendChild(makeRow('Guest Code', guestCode.value.trim()));
+    }
 
     ticketEl.appendChild(ticketCard);
     ticketEl.style.display = 'block';
+  }
+
+  checkEmail();
+  showHideFields();
+  checkStudentId();
+  checkGuestCode();
+
+  type.addEventListener('change', function () {
+    checkEmail();
+    showHideFields();
+    checkStudentId();
+    checkGuestCode();
+    if (submitted) {
+      updateFieldStyles();
+    }
   });
-  // remove error state when user starts typing
-  studentId.addEventListener('input', ()=>{
-    if(studentId.value.trim()) studentWrap.classList.remove('error');
+
+  firstName.addEventListener('input', function () {
+    if (submitted) {
+      updateFieldStyles();
+    }
   });
-  guestCode.addEventListener('input', ()=>{
-    if(guestCode.value.trim()) guestWrap.classList.remove('error');
+
+  lastName.addEventListener('input', function () {
+    if (submitted) {
+      updateFieldStyles();
+    }
+  });
+
+  email.addEventListener('input', function () {
+    email.setCustomValidity('');
+    checkEmail();
+    if (submitted) {
+      updateFieldStyles();
+    }
+  });
+
+  dateInput.addEventListener('input', function () {
+    if (submitted) {
+      updateFieldStyles();
+    }
+  });
+
+  studentId.addEventListener('input', function () {
+    checkStudentId();
+    if (submitted) {
+      updateFieldStyles();
+    }
+  });
+
+  guestCode.addEventListener('input', function () {
+    checkGuestCode();
+    if (submitted) {
+      updateFieldStyles();
+    }
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    submitted = true;
+    clearMessages();
+    checkEmail();
+    showHideFields();
+    checkStudentId();
+    checkGuestCode();
+    updateFieldStyles();
+
+    var invalidList = [];
+    var inputs = [firstName, lastName, email, dateInput, studentId, guestCode];
+
+    for (var i = 0; i < inputs.length; i++) {
+      if (!inputs[i].checkValidity()) {
+        invalidList.push(inputs[i].validationMessage);
+      }
+    }
+
+    if (invalidList.length > 0) {
+      showErrors(invalidList);
+      if (!firstName.checkValidity()) {
+        firstName.focus();
+      } else if (!lastName.checkValidity()) {
+        lastName.focus();
+      } else if (!email.checkValidity()) {
+        email.focus();
+      } else if (!dateInput.checkValidity()) {
+        dateInput.focus();
+      } else if (!studentId.checkValidity()) {
+        studentId.focus();
+      } else if (!guestCode.checkValidity()) {
+        guestCode.focus();
+      }
+      return;
+    }
+
+    makeTicket();
   });
 });
