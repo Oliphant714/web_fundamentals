@@ -11,19 +11,19 @@
 	<meta property="og:title" content="Recipe Book | Apple Crisp">
 	<meta property="og:description" content="A simple recipe book page featuring apple crisp.">
 	<meta property="og:url" content="https://example.com/recipes/">
-	<meta property="og:image" content="apple-crisp.jpg">
+	<meta property="og:image" content="images/apple-crisp.jpg">
 
 	<!-- X Card -->
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="Recipe Book | Apple Crisp">
 	<meta name="twitter:description" content="A simple recipe book page featuring apple crisp.">
-	<meta name="twitter:image" content="apple-crisp.jpg">
+	<meta name="twitter:image" content="images/apple-crisp.jpg">
 
 	<!-- One favicon (ICO works everywhere) -->
-	<link rel="icon" href="recipe-book.png">
+	<link rel="icon" href="images/recipe-book.png">
 
 	<!-- One Apple Touch Icon (iOS home screen) -->
-	<link rel="apple-touch-icon" href="recipe-book.png">
+	<link rel="apple-touch-icon" href="images/recipe-book.png">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
 <body>
 	<div class="page">
 		<header class="site-header">
-			<img class="logo" src="recipe-book.png" alt="Recipe Book logo">
+			<img class="logo" src="images/recipe-book.png" alt="Recipe Book logo">
 			<h1>Recipe Book</h1>
 		</header>
 
@@ -41,30 +41,11 @@
 				<label class="sr-only" for="recipe-search">Find a recipe</label>
 				<input id="recipe-search" type="search" placeholder="Find a recipe">
 				<button type="submit" aria-label="Search recipes">
-					<img src="search-icon.png" alt="Search icon that looks like a magnifying glass">
+					<img src="images/search-icon.png" alt="Search icon that looks like a magnifying glass">
 				</button>
 			</form>
 
-			<article class="recipe-card">
-				<img class="recipe-image" src="apple-crisp.jpg" alt="A bowl of apple crisp with vanilla ice cream">
-
-				<div class="recipe-content">
-					<p class="category">dessert</p>
-					<h2>Apple Crisp</h2>
-					<span
-						class="rating"
-						role="img"
-						aria-label="Rating: 4 out of 5 stars"
-					>
-						<span aria-hidden="true" class="icon-star">⭐</span>
-						<span aria-hidden="true" class="icon-star">⭐</span>
-						<span aria-hidden="true" class="icon-star">⭐</span>
-						<span aria-hidden="true" class="icon-star">⭐</span>
-						<span aria-hidden="true" class="icon-star-empty">☆</span>
-					</span>
-					<p class="description">This apple crisp recipe is a simple yet delicious fall dessert that's great served warm with vanilla ice cream.</p>
-				</div>
-			</article>
+			<!-- Recipe cards are rendered here by main.js -->
 		</main>
 
 		<footer class="site-footer">
@@ -72,16 +53,18 @@
 			<div class="social">
 				<!-- Social media icons provided under CC from https://www.iconfinder.com/AlfredoCreates  -->
 				<a href="#" aria-label="Follow us on Instagram">
-					<img src="instagram-icon.png" alt="instagram icon">
+					<img src="images/instagram-icon.png" alt="instagram icon">
 				</a>
 				<a href="#" aria-label="Subscribe to our YouTube channel">
-					<img src="youtube-icon.png" alt="youtube icon">
+					<img src="images/youtube-icon.png" alt="youtube icon">
 				</a>
 				<a href="#" aria-label="Follow us on Pinterest">
-					<img src="pinterest-icon.png" alt="pinterest icon">
+					<img src="images/pinterest-icon.png" alt="pinterest icon">
 				</a>
 			</div>
 		</footer>
 	</div>
+
+	<script src="main.js"></script>
 </body>
 </html>
